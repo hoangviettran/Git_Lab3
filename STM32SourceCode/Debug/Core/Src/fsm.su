@@ -1,3 +1,4 @@
 fsm.c:12:6:Seg7Scan	8	static
-fsm.c:55:6:fsm_automatic_run	8	static
-fsm.c:119:6:fsm_simple_buttons_run	8	static
+fsm.c:52:6:clearAllLED	8	static
+fsm.c:62:6:fsm_automatic_run	8	static
+fsm.c:128:6:fsm_simple_buttons_run	8	static

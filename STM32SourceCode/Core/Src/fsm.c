@@ -49,7 +49,14 @@ void Seg7Scan(){
 	}
 }
 
-
+void clearAllLED(){
+	HAL_GPIO_WritePin ( RED_1_GPIO_Port , RED_1_Pin , GPIO_PIN_RESET ) ;
+	HAL_GPIO_WritePin ( GREEN_1_GPIO_Port , GREEN_1_Pin , GPIO_PIN_RESET ) ;
+	HAL_GPIO_WritePin ( YELLOW_1_GPIO_Port , YELLOW_1_Pin , GPIO_PIN_RESET ) ;
+	HAL_GPIO_WritePin ( RED_GPIO_Port , RED_Pin , GPIO_PIN_RESET ) ;
+	HAL_GPIO_WritePin ( GREEN_GPIO_Port , GREEN_Pin , GPIO_PIN_RESET ) ;
+	HAL_GPIO_WritePin ( YELLOW_GPIO_Port , YELLOW_Pin , GPIO_PIN_RESET ) ;
+}
 
 //automatic mode
 void fsm_automatic_run(){
@@ -108,6 +115,8 @@ void fsm_automatic_run(){
 			counter_1 = 0;
 			Set_time = RED_Time_value;
 		    state = RED_M;
+			//clear all the led
+			clearAllLED();
 		}
 		break;
 	default:
@@ -125,10 +134,6 @@ void fsm_simple_buttons_run(){
 	case RED_M:
 		ModeValue = 2;
 		updateClockBuffer();
-		HAL_GPIO_WritePin ( YELLOW_1_GPIO_Port , YELLOW_1_Pin , GPIO_PIN_RESET ) ;
-		HAL_GPIO_WritePin ( GREEN_1_GPIO_Port , GREEN_1_Pin , GPIO_PIN_RESET ) ;
-		HAL_GPIO_WritePin ( YELLOW_GPIO_Port , YELLOW_Pin , GPIO_PIN_RESET ) ;
-		HAL_GPIO_WritePin ( GREEN_GPIO_Port , GREEN_Pin , GPIO_PIN_RESET ) ;
 		if(isButton2Pressed() == 1){
 			Set_time++;
 			if(Set_time>= 100) Set_time = 0;
@@ -145,15 +150,20 @@ void fsm_simple_buttons_run(){
 			setTimer0(250);
 			Set_time = YELLOW_Time_value;
 			state = YELLOW_M;
+			//clear all the led
+			clearAllLED();
 		}
 		break;
 	case YELLOW_M:
 		ModeValue = 3;
 		updateClockBuffer();
-		HAL_GPIO_WritePin ( RED_1_GPIO_Port , RED_1_Pin , GPIO_PIN_RESET ) ;
-		HAL_GPIO_WritePin ( GREEN_1_GPIO_Port , GREEN_1_Pin , GPIO_PIN_RESET ) ;
-		HAL_GPIO_WritePin ( RED_GPIO_Port , RED_Pin , GPIO_PIN_RESET ) ;
-		HAL_GPIO_WritePin ( GREEN_GPIO_Port , GREEN_Pin , GPIO_PIN_RESET ) ;
+		if(isButton2Pressed() == 1){
+			Set_time++;
+			if(Set_time>= 100) Set_time = 0;
+		}
+		if(isButton3Pressed() == 1){
+			YELLOW_Time_value = Set_time;
+		}
 		if(timer0_flag == 1){
 			HAL_GPIO_TogglePin(YELLOW_GPIO_Port, YELLOW_Pin);
 			HAL_GPIO_TogglePin(YELLOW_1_GPIO_Port, YELLOW_1_Pin);
@@ -163,15 +173,13 @@ void fsm_simple_buttons_run(){
 			setTimer0(250);
 			Set_time = GREEN_Time_value;
 			state = GREEN_M;
+			//clear all the led
+			clearAllLED();
 		}
 		break;
 	case GREEN_M:
 		ModeValue = 4;
 		updateClockBuffer();
-		HAL_GPIO_WritePin ( RED_1_GPIO_Port , RED_1_Pin , GPIO_PIN_RESET ) ;
-		HAL_GPIO_WritePin ( YELLOW_1_GPIO_Port , YELLOW_1_Pin , GPIO_PIN_RESET ) ;
-		HAL_GPIO_WritePin ( RED_GPIO_Port , RED_Pin , GPIO_PIN_RESET ) ;
-		HAL_GPIO_WritePin ( YELLOW_GPIO_Port , YELLOW_Pin , GPIO_PIN_RESET ) ;
 		if(timer0_flag == 1){
 			HAL_GPIO_TogglePin(GREEN_GPIO_Port, GREEN_Pin);
 			HAL_GPIO_TogglePin(GREEN_1_GPIO_Port, GREEN_1_Pin);
@@ -181,6 +189,8 @@ void fsm_simple_buttons_run(){
 			setTimer0(250);
 			Set_time = 0;
 			state = NOR;
+			//clear all the led
+			clearAllLED();
 		}
 		break;
 	default:
