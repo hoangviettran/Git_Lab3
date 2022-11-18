@@ -122,6 +122,8 @@ void fsm_simple_buttons_run(){
 		updateClockBuffer();
 		HAL_GPIO_WritePin ( YELLOW_1_GPIO_Port , YELLOW_1_Pin , GPIO_PIN_RESET ) ;
 		HAL_GPIO_WritePin ( GREEN_1_GPIO_Port , GREEN_1_Pin , GPIO_PIN_RESET ) ;
+		HAL_GPIO_WritePin ( YELLOW_GPIO_Port , YELLOW_Pin , GPIO_PIN_RESET ) ;
+		HAL_GPIO_WritePin ( GREEN_GPIO_Port , GREEN_Pin , GPIO_PIN_RESET ) ;
 		if(timer0_flag == 1){
 			HAL_GPIO_TogglePin(RED_GPIO_Port, RED_Pin);
 			HAL_GPIO_TogglePin(RED_1_GPIO_Port, RED_1_Pin);
@@ -136,6 +138,8 @@ void fsm_simple_buttons_run(){
 		updateClockBuffer();
 		HAL_GPIO_WritePin ( RED_1_GPIO_Port , RED_1_Pin , GPIO_PIN_RESET ) ;
 		HAL_GPIO_WritePin ( GREEN_1_GPIO_Port , GREEN_1_Pin , GPIO_PIN_RESET ) ;
+		HAL_GPIO_WritePin ( RED_GPIO_Port , RED_Pin , GPIO_PIN_RESET ) ;
+		HAL_GPIO_WritePin ( GREEN_GPIO_Port , GREEN_Pin , GPIO_PIN_RESET ) ;
 		if(timer0_flag == 1){
 			HAL_GPIO_TogglePin(YELLOW_GPIO_Port, YELLOW_Pin);
 			HAL_GPIO_TogglePin(YELLOW_1_GPIO_Port, YELLOW_1_Pin);
@@ -150,6 +154,8 @@ void fsm_simple_buttons_run(){
 		updateClockBuffer();
 		HAL_GPIO_WritePin ( RED_1_GPIO_Port , RED_1_Pin , GPIO_PIN_RESET ) ;
 		HAL_GPIO_WritePin ( YELLOW_1_GPIO_Port , YELLOW_1_Pin , GPIO_PIN_RESET ) ;
+		HAL_GPIO_WritePin ( RED_GPIO_Port , RED_Pin , GPIO_PIN_RESET ) ;
+		HAL_GPIO_WritePin ( YELLOW_GPIO_Port , YELLOW_Pin , GPIO_PIN_RESET ) ;
 		if(timer0_flag == 1){
 			HAL_GPIO_TogglePin(GREEN_GPIO_Port, GREEN_Pin);
 			HAL_GPIO_TogglePin(GREEN_1_GPIO_Port, GREEN_1_Pin);
