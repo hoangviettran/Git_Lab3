@@ -59,50 +59,47 @@ void fsm_automatic_run(){
 		updateClockBuffer();
 		if(timer0_flag == 1){
 			counter++;
-		    if(counter <= 5){
-		    	Horizontal_TrafficLight = 5-counter;
-	   		    //display7SEG(5-counter);
+			counter_1++;
+			//horizontal traffic light
+		    if(counter <= RED_Time_value){
+		    	Horizontal_TrafficLight = RED_Time_value - counter;
 			    HAL_GPIO_WritePin ( RED_GPIO_Port , RED_Pin , GPIO_PIN_SET ) ;
 	    	    HAL_GPIO_WritePin ( YELLOW_GPIO_Port , YELLOW_Pin , GPIO_PIN_RESET ) ;
 			    HAL_GPIO_WritePin ( GREEN_GPIO_Port , GREEN_Pin , GPIO_PIN_RESET ) ;
-			    if(counter <= 2){
-			    	Vertial_TrafficLight = 2 - counter;
-    			    //display7SEG_1(2-counter);
-				    HAL_GPIO_WritePin ( RED_1_GPIO_Port , RED_1_Pin , GPIO_PIN_RESET ) ;
-				    HAL_GPIO_WritePin ( YELLOW_1_GPIO_Port , YELLOW_1_Pin , GPIO_PIN_SET ) ;
-				    HAL_GPIO_WritePin ( GREEN_1_GPIO_Port , GREEN_1_Pin , GPIO_PIN_RESET ) ;
-				}
-				else{
-					Vertial_TrafficLight = 5 - counter;
-					//display7SEG_1(5-counter);
-					HAL_GPIO_WritePin ( RED_1_GPIO_Port , RED_1_Pin , GPIO_PIN_RESET ) ;
-					HAL_GPIO_WritePin ( YELLOW_1_GPIO_Port , YELLOW_1_Pin , GPIO_PIN_RESET ) ;
-					HAL_GPIO_WritePin ( GREEN_1_GPIO_Port , GREEN_1_Pin , GPIO_PIN_SET ) ;
-				}
 		    }
-		    else if(counter <= 7){
-				Horizontal_TrafficLight = 7 - counter;
-		    	//display7SEG(7-counter);
+		    else if(counter <= RED_Time_value + YELLOW_Time_value){
+				Horizontal_TrafficLight = RED_Time_value + YELLOW_Time_value - counter;
 				HAL_GPIO_WritePin ( RED_GPIO_Port , RED_Pin , GPIO_PIN_RESET ) ;
 				HAL_GPIO_WritePin ( YELLOW_GPIO_Port , YELLOW_Pin , GPIO_PIN_SET ) ;
 				HAL_GPIO_WritePin ( GREEN_GPIO_Port , GREEN_Pin , GPIO_PIN_RESET ) ;
-
-				Vertial_TrafficLight = 10 - counter;
-				//display7SEG_1(10-counter);
-				HAL_GPIO_WritePin ( RED_1_GPIO_Port , RED_1_Pin , GPIO_PIN_SET ) ;
-				HAL_GPIO_WritePin ( YELLOW_1_GPIO_Port , YELLOW_1_Pin , GPIO_PIN_RESET ) ;
-			    HAL_GPIO_WritePin ( GREEN_1_GPIO_Port , GREEN_1_Pin , GPIO_PIN_RESET ) ;
 		    }
-		    else if(counter <= 10){
-				Horizontal_TrafficLight = 10 - counter;
-		    	//display7SEG(10-counter);
+		    else if(counter <= RED_Time_value + YELLOW_Time_value + GREEN_Time_value){
+				Horizontal_TrafficLight = RED_Time_value + YELLOW_Time_value + GREEN_Time_value - counter;
 			    HAL_GPIO_WritePin ( RED_GPIO_Port , RED_Pin , GPIO_PIN_RESET ) ;
 			    HAL_GPIO_WritePin ( YELLOW_GPIO_Port , YELLOW_Pin , GPIO_PIN_RESET ) ;
 				HAL_GPIO_WritePin ( GREEN_GPIO_Port , GREEN_Pin , GPIO_PIN_SET ) ;
-				Vertial_TrafficLight = 10 - counter;
-				//display7SEG_1(10-count);
 			}
-			if(counter >= 10) counter = 0;
+			if(counter >= RED_Time_value + YELLOW_Time_value + GREEN_Time_value) counter = 0;
+			//vertical traffic light
+		    if(counter_1 <= YELLOW_Time_value){
+		    	Vertical_TrafficLight = YELLOW_Time_value - counter_1;
+				HAL_GPIO_WritePin ( RED_1_GPIO_Port , RED_1_Pin , GPIO_PIN_RESET ) ;
+				HAL_GPIO_WritePin ( YELLOW_1_GPIO_Port , YELLOW_1_Pin , GPIO_PIN_SET ) ;
+				HAL_GPIO_WritePin ( GREEN_1_GPIO_Port , GREEN_1_Pin , GPIO_PIN_RESET ) ;
+		    }
+		    else if(counter_1 <= GREEN_Time_value + YELLOW_Time_value){
+				Vertical_TrafficLight = GREEN_Time_value + YELLOW_Time_value - counter_1;
+			    HAL_GPIO_WritePin ( RED_1_GPIO_Port , RED_1_Pin , GPIO_PIN_RESET ) ;
+			    HAL_GPIO_WritePin ( YELLOW_1_GPIO_Port , YELLOW_1_Pin , GPIO_PIN_RESET ) ;
+				HAL_GPIO_WritePin ( GREEN_1_GPIO_Port , GREEN_1_Pin , GPIO_PIN_SET ) ;
+		    }
+		    else if(counter_1 <= RED_Time_value + YELLOW_Time_value + GREEN_Time_value){
+				Vertical_TrafficLight = RED_Time_value + YELLOW_Time_value + GREEN_Time_value - counter_1;
+			    HAL_GPIO_WritePin ( RED_1_GPIO_Port , RED_1_Pin , GPIO_PIN_SET ) ;
+	    	    HAL_GPIO_WritePin ( YELLOW_1_GPIO_Port , YELLOW_1_Pin , GPIO_PIN_RESET ) ;
+			    HAL_GPIO_WritePin ( GREEN_1_GPIO_Port , GREEN_1_Pin , GPIO_PIN_RESET ) ;
+			}
+			if(counter_1 >= RED_Time_value + YELLOW_Time_value + GREEN_Time_value) counter_1 = 0;
 			setTimer0(1000);
 		}
 		if(isButton1Pressed() == 1){
@@ -123,6 +120,13 @@ void fsm_simple_buttons_run(){
 	case RED_M:
 		ModeValue = 2;
 		updateClockBuffer();
+		HAL_GPIO_WritePin ( YELLOW_1_GPIO_Port , YELLOW_1_Pin , GPIO_PIN_RESET ) ;
+		HAL_GPIO_WritePin ( GREEN_1_GPIO_Port , GREEN_1_Pin , GPIO_PIN_RESET ) ;
+		if(timer0_flag == 1){
+			HAL_GPIO_TogglePin(RED_GPIO_Port, RED_Pin);
+			HAL_GPIO_TogglePin(RED_1_GPIO_Port, RED_1_Pin);
+			setTimer0(250);
+		}
 		if(isButton1Pressed() == 1){
 			state = YELLOW_M;
 		}
@@ -130,6 +134,13 @@ void fsm_simple_buttons_run(){
 	case YELLOW_M:
 		ModeValue = 3;
 		updateClockBuffer();
+		HAL_GPIO_WritePin ( RED_1_GPIO_Port , RED_1_Pin , GPIO_PIN_RESET ) ;
+		HAL_GPIO_WritePin ( GREEN_1_GPIO_Port , GREEN_1_Pin , GPIO_PIN_RESET ) ;
+		if(timer0_flag == 1){
+			HAL_GPIO_TogglePin(YELLOW_GPIO_Port, YELLOW_Pin);
+			HAL_GPIO_TogglePin(YELLOW_1_GPIO_Port, YELLOW_1_Pin);
+			setTimer0(250);
+		}
 		if(isButton1Pressed() == 1){
 			state = GREEN_M;
 		}
@@ -137,6 +148,13 @@ void fsm_simple_buttons_run(){
 	case GREEN_M:
 		ModeValue = 4;
 		updateClockBuffer();
+		HAL_GPIO_WritePin ( RED_1_GPIO_Port , RED_1_Pin , GPIO_PIN_RESET ) ;
+		HAL_GPIO_WritePin ( YELLOW_1_GPIO_Port , YELLOW_1_Pin , GPIO_PIN_RESET ) ;
+		if(timer0_flag == 1){
+			HAL_GPIO_TogglePin(GREEN_GPIO_Port, GREEN_Pin);
+			HAL_GPIO_TogglePin(GREEN_1_GPIO_Port, GREEN_1_Pin);
+			setTimer0(250);
+		}
 		if(isButton1Pressed() == 1){
 			state = NOR;
 		}

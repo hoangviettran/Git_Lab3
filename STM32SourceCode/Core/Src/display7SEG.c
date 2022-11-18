@@ -17,8 +17,8 @@ int led_buffer[7] = {0,0,0,0,0,0,0};
 void updateClockBuffer(){
     led_buffer[0] = Horizontal_TrafficLight%10;
     led_buffer[1] = Horizontal_TrafficLight/10;
-    led_buffer[2] = Vertial_TrafficLight%10;
-    led_buffer[3] = Vertial_TrafficLight/10;
+    led_buffer[2] = Vertical_TrafficLight%10;
+    led_buffer[3] = Vertical_TrafficLight/10;
     led_buffer[4] = ModeValue;
     switch(ModeValue){
     case 1:
@@ -114,7 +114,7 @@ void update7SEG(int index){
         HAL_GPIO_WritePin ( EN5_GPIO_Port , EN5_Pin , GPIO_PIN_SET ) ;
         HAL_GPIO_WritePin ( EN6_GPIO_Port , EN6_Pin , GPIO_PIN_SET ) ;
         HAL_GPIO_WritePin ( EN7_GPIO_Port , EN7_Pin , GPIO_PIN_RESET ) ;
-		display7Seg(led_buffer[5]);
+		display7Seg(led_buffer[6]);
 		break;
 	default:
 		break;

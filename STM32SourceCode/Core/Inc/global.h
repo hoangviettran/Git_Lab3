@@ -8,10 +8,11 @@
 #define GREEN_M       4
 
 extern int counter;
+extern int counter_1;
 extern int state;
 //7 segment led
 extern int Horizontal_TrafficLight;
-extern int Vertial_TrafficLight;
+extern int Vertical_TrafficLight;
 extern int ModeValue;
 extern int RED_Time_value;
 extern int GREEN_Time_value;
