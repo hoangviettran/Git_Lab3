@@ -12,32 +12,43 @@ int numOfLed = 0;
 void Seg7Scan(){
 	if(timer1_flag == 1){
 			  if(numOfLed == 0){
-					setTimer1 (200);
+					setTimer1 (140);
 					update7SEG(1);
 					numOfLed = 1;
 			  }
 			  else if(numOfLed == 1){
-					setTimer1 (200);
+					setTimer1 (140);
 					update7SEG(2);
 					numOfLed = 2;
 			  }
 			  else if(numOfLed == 2){
-					setTimer1 (200);
+					setTimer1 (140);
 					update7SEG(3);
 					numOfLed = 3;
 			  }
 			  else if(numOfLed == 3){
-					setTimer1 (200);
+					setTimer1 (140);
 					update7SEG(4);
 					numOfLed = 4;
 			  }
+			  else if(numOfLed == 4){
+					setTimer1 (140);
+					update7SEG(5);
+					numOfLed = 5;
+			  }
+			  else if(numOfLed == 5){
+					setTimer1 (140);
+					update7SEG(6);
+					numOfLed = 6;
+			  }
 			  else{
-					setTimer1 (200);
+					setTimer1 (140);
 					update7SEG(0);
 					numOfLed = 0;
 			  }
 	}
 }
+
 
 
 //automatic mode
