@@ -17,10 +17,12 @@ int led_buffer[7] = {0,0,0,0,0,0,0};
 void updateClockBuffer(){
     led_buffer[0] = Horizontal_TrafficLight%10;
     led_buffer[1] = Horizontal_TrafficLight/10;
-    led_buffer[2] = Vertial_TrafficLight%10;
-    led_buffer[3] = Vertial_TrafficLight/10;
+    led_buffer[2] = Vertical_TrafficLight%10;
+    led_buffer[3] = Vertical_TrafficLight/10;
     led_buffer[4] = ModeValue;
-    switch(ModeValue){
+    led_buffer[5] = Set_time/10;
+    led_buffer[6] = Set_time%10;
+    /*switch(ModeValue){
     case 1:
     	led_buffer[5] = 0;
     	led_buffer[6] = 0;
@@ -37,7 +39,7 @@ void updateClockBuffer(){
     	led_buffer[5] = GREEN_Time_value/10;
         led_buffer[6] = GREEN_Time_value%10;
        	break;
-    }
+    }**/
 }
 
 void update7SEG(int index){
