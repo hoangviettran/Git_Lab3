@@ -37,10 +37,6 @@ void updateClockBuffer(){
     	led_buffer[5] = GREEN_Time_value/10;
         led_buffer[6] = GREEN_Time_value%10;
        	break;
-    default:
-    	led_buffer[5] = 0;
-        led_buffer[6] = 0;
-       	break;
     }
 }
 
@@ -114,7 +110,7 @@ void update7SEG(int index){
         HAL_GPIO_WritePin ( EN5_GPIO_Port , EN5_Pin , GPIO_PIN_SET ) ;
         HAL_GPIO_WritePin ( EN6_GPIO_Port , EN6_Pin , GPIO_PIN_SET ) ;
         HAL_GPIO_WritePin ( EN7_GPIO_Port , EN7_Pin , GPIO_PIN_RESET ) ;
-		display7Seg(led_buffer[5]);
+		display7Seg(led_buffer[6]);
 		break;
 	default:
 		break;
