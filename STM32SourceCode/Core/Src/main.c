@@ -99,6 +99,7 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   setTimer1(250);
+  setTimer0(1000);
   while (1)
   {
 	  fsm_automatic_run();
