@@ -180,6 +180,13 @@ void fsm_simple_buttons_run(){
 	case GREEN_M:
 		ModeValue = 4;
 		updateClockBuffer();
+		if(isButton2Pressed() == 1){
+			Set_time++;
+			if(Set_time>= 100) Set_time = 0;
+		}
+		if(isButton3Pressed() == 1){
+			GREEN_Time_value = Set_time;
+		}
 		if(timer0_flag == 1){
 			HAL_GPIO_TogglePin(GREEN_GPIO_Port, GREEN_Pin);
 			HAL_GPIO_TogglePin(GREEN_1_GPIO_Port, GREEN_1_Pin);
