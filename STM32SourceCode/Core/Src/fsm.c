@@ -8,31 +8,46 @@
 
 #include "fsm.h"
 
-#define COUNTER     10000 // set timer for manual mode (fsm_simple_buttons_run())
-#define COUNTDOWN   1000  // set timer for automatic mode (fsm_simple_buttons_run())
+int numOfLed = 0;
+void Seg7Scan(){
+	if(timer1_flag == 1){
+			  if(numOfLed == 0){
+					setTimer1 (250);
+					update7SEG(1);
+					numOfLed = 1;
+			  }
+			  else if(numOfLed == 1){
+					setTimer1 (250);
+					update7SEG(2);
+					numOfLed = 2;
+			  }
+			  else if(numOfLed == 2){
+					setTimer1 (250);
+					update7SEG(3);
+					numOfLed = 3;
+			  }
+			  else if(numOfLed == 3){
+					setTimer1 (250);
+					update7SEG(4);
+					numOfLed = 4;
+			  }
+			  else{
+					setTimer1 (250);
+					update7SEG(0);
+					numOfLed = 0;
+			  }
+	}
+}
+
+
 //automatic mode
 void fsm_automatic_run(){
 	switch(state){
-	case AUTO_DEC:
-		if(timer1_flag == 1){
-			if(counter > 0) counter--;
-			setTimer1(COUNTDOWN);
-		}
+	case NOR:
+		ModeValue = 1;
+		updateClockBuffer();
 		if(isButton1Pressed() == 1){
-		    counter = 0;
-		    state = RS;
-		}
-		if(isButton2Pressed() == 1){
-			setTimer1(COUNTER);
-			counter++;
-			if(counter >= 10) counter = 0;
-			state = INC;
-		}
-		if(isButton3Pressed() == 1){
-			setTimer1(COUNTER);
-			counter--;
-			if(counter < 0) counter = 9;
-			state = DEC;
+		    state = RED_M;
 		}
 		break;
 	default:
@@ -43,70 +58,30 @@ void fsm_automatic_run(){
 void fsm_simple_buttons_run(){
 	switch(state){
 	case INIT:
-		counter = 0;
-		state = RS;
+		state = NOR;
 		break;
-	case INC:
-		if(timer1_flag == 1){
-			state = AUTO_DEC;
-			counter--;
-			if(counter < 0) counter = 9;
-			setTimer1(COUNTDOWN);
-		}
+	case RED_M:
+		ModeValue = 2;
+		updateClockBuffer();
 		if(isButton1Pressed() == 1){
-			counter = 0;
-			state = RS;
-		}
-		if(isButton2Pressed() == 1){
-			setTimer1(COUNTER);
-			counter++;
-			if(counter >= 10) counter = 0;
-		}
-		if(isButton3Pressed() == 1){
-			setTimer1(COUNTER);
-			counter--;
-			if(counter < 0) counter = 9;
-			state = DEC;
+			state = YELLOW_M;
 		}
 		break;
-	case DEC:
-		if(timer1_flag == 1){
-			state = AUTO_DEC;
-			counter--;
-			if(counter < 0) counter = 9;
-			setTimer1(COUNTDOWN);
-		}
+	case YELLOW_M:
+		ModeValue = 3;
+		updateClockBuffer();
 		if(isButton1Pressed() == 1){
-			counter = 0;
-			state = RS;
-		}
-		if(isButton2Pressed() == 1){
-			setTimer1(COUNTER);
-			counter++;
-			if(counter >= 10) counter = 0;
-			state = INC;
-		}
-		if(isButton3Pressed() == 1){
-			setTimer1(COUNTER);
-			counter--;
-			if(counter < 0) counter = 9;
+			state = GREEN_M;
 		}
 		break;
-	case RS:
-		if(isButton2Pressed() == 1){
-			setTimer1(COUNTER);
-			counter++;
-			if(counter >= 10) counter = 0;
-			state = INC;
-		}
-		if(isButton3Pressed() == 1){
-			setTimer1(COUNTER);
-			counter--;
-			if(counter < 0) counter = 9;
-			state = DEC;
+	case GREEN_M:
+		ModeValue = 4;
+		updateClockBuffer();
+		if(isButton1Pressed() == 1){
+			state = NOR;
 		}
 		break;
-	}
 	default:
 		break;
+	}
 }

@@ -76,6 +76,7 @@ void getKeyInput(){
 		}
 		if((KeyReg0[i] == KeyReg1[i]) && ( KeyReg1[i] == KeyReg2[i])){
 			if(KeyReg3[i] != KeyReg2[i]){
+				//button debouncing
 				KeyReg3[i] = KeyReg2[i];
 				if(KeyReg2[i] == PRESSED_STATE){
 					subKeyProcess(i);

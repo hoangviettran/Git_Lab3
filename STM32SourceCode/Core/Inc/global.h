@@ -1,12 +1,20 @@
 #ifndef INC_GLOBAL_H_
 #define INC_GLOBAL_H_
 
-#define INIT        0
-#define RS          1
-#define INC         2
-#define DEC         3
-#define AUTO_DEC    4
+#define INIT          0
+#define NOR           1
+#define RED_M         2
+#define YELLOW_M      3
+#define GREEN_M       4
 
 extern int counter;
 extern int state;
+//7 segment led
+extern int Horizontal_TrafficLight;
+extern int Vertial_TrafficLight;
+extern int ModeValue;
+extern int RED_Time_value;
+extern int GREEN_Time_value;
+extern int YELLOW_Time_value;
+extern int Set_time;
 #endif

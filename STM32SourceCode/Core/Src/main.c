@@ -22,7 +22,11 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "button.h"
+#include "software_timer.h"
+#include "global.h"
+#include "display7SEG.h"
+#include "fsm.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -94,8 +98,12 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  setTimer1(250);
   while (1)
   {
+	  fsm_automatic_run();
+
+	  fsm_simple_buttons_run();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -202,8 +210,8 @@ static void MX_GPIO_Init(void)
                           |GREEN_Pin|RED_1_Pin|YELLOW_1_Pin|GREEN_1_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, A_Pin|B_Pin|D_Pin|E_Pin
-                          |F_Pin|G_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, A_Pin|B_Pin|C_Pin|D_Pin
+                          |E_Pin|F_Pin|G_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : LED_RED_Pin EN1_Pin EN2_Pin EN3_Pin
                            EN4_Pin EN5_Pin RED_Pin YELLOW_Pin
@@ -216,19 +224,14 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : A_Pin B_Pin D_Pin E_Pin
-                           F_Pin G_Pin */
-  GPIO_InitStruct.Pin = A_Pin|B_Pin|D_Pin|E_Pin
-                          |F_Pin|G_Pin;
+  /*Configure GPIO pins : A_Pin B_Pin C_Pin D_Pin
+                           E_Pin F_Pin G_Pin */
+  GPIO_InitStruct.Pin = A_Pin|B_Pin|C_Pin|D_Pin
+                          |E_Pin|F_Pin|G_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : C_Pin */
-  GPIO_InitStruct.Pin = C_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-  HAL_GPIO_Init(C_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : INC_Pin SET_Pin MODE_Pin */
   GPIO_InitStruct.Pin = INC_Pin|SET_Pin|MODE_Pin;
@@ -241,7 +244,9 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim )
 {
-
+	timer_run();
+	getKeyInput();
+	Seg7Scan();
 }
 /* USER CODE END 4 */
 

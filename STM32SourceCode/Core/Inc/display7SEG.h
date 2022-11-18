@@ -9,5 +9,7 @@
 #define INC_DISPLAY7SEG_H_
 
 void display7Seg(int num);
+void updateClockBuffer();
+void update7SEG(int index);
 
 #endif /* INC_DISPLAY7SEG_H_ */

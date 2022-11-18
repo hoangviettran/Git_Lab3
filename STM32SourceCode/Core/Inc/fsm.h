@@ -14,6 +14,8 @@
 #include "button.h"
 #include "display7SEG.h"
 
+void Seg7Scan();
+
 void fsm_automatic_run();
 
 void fsm_manual_run();
